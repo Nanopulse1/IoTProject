@@ -1,5 +1,5 @@
-#define PIR_MOTION_SENSOR 2
-#define LED  4
+const int PIR_MOTION_SENSOR = 2;
+const int LED =  4; 
 
 void setup() {
   // put your setup code here, to run once:

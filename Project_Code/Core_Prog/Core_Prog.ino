@@ -1,28 +1,38 @@
-#define PIR_MOTION_SENSOR 2
+#include <Servo.h>
+Servo myservo;
+int pos = 0;
+const int buttonPin = 6;
+int buttonState = 0; 
+
 void setup() {
   // put your setup code here, to run once:
-
+myservo.attach(2);
+pinMode(buttonPin, INPUT);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
 
+  buttonState = digitalRead(buttonPin);
+  if (buttonState == LOW) {
+    
+    myservo.write(pos); 
+  } 
+  else if(buttonState == HIGH) {
+    for (pos = 0; pos <= 180; pos += 1) {
+    
+    myservo.write(pos);              
+    delay(15);
+  
+   
+              }
+  }
+  else{
+    pos=0;
+  }
 }
 
 void pinsInit()
 {
-  pinMode(PIR_MOTION_SENSOR, INPUT);
 }
 
-boolean motionDetected()//Code adapted from GitHub repository for PIR_Motion sensor https://goo.gl/Roq8sE
-{
-  int sensorValue = digitalRead(PIR_MOTION_SENSOR);
-  if(sensorValue == HIGH)
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
-}
+
