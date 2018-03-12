@@ -1,34 +1,49 @@
-/* V1
+
+
 #include <Servo.h>
 Servo myservo;
 int pos = 0;
+
+const int buzzerPin = 8;
+int buzzerState = 0;
 const int buttonPin = 6;
 int buttonState = 0;
 
 const int FUNCTION = 7;
 int functionState = 0;
 
+int LIGHT_SENSOR = A0;
+
 const int LED = 3;
-const int PIR = 7;
-int pirState = 0;
 
 void setup() {
   // put your setup code here, to run once:
 myservo.attach(2);
 
 pinMode(LED, OUTPUT);
-pinMode(PIR, INPUT);
 pinMode(FUNCTION, INPUT);
 pinMode(buttonPin, INPUT);
+pinMode(buzzerPin, OUTPUT);
 functionState = 0;
+
+Serial.begin(9600);
 
 }
 
 void loop() {
+  int sensorValue = analogRead(LIGHT_SENSOR);
+  buttonState = digitalRead(buttonPin);
+  Serial.println(sensorValue);
 
-  functionState = digitalRead(FUNCTION);
-
-  if(functionState == digitalRead(HIGH)){
+  if(sensorValue <= 50){
+    digitalWrite(buzzerPin, HIGH);
+  }
+  else{
+    digitalWrite(buzzerPin, LOW);
+  }
+  
+  
+  if(buttonState == digitalRead(HIGH)){
     for (pos = 0; pos <= 180; pos += 1) 
     {
     myservo.write(pos);              
@@ -43,7 +58,7 @@ void loop() {
     
   }
 
-V2 */
+/*
 #include <Bridge.h>
 #include <BridgeServer.h>
 #include <BridgeClient.h>
@@ -62,7 +77,7 @@ const int FUNCTION = 7;
 int functionState = 0;
 
 const int LED = 3;
-const int PIR = 7;
+const int PIR = 6;
 int pirState = 0;
 
 void setup() {
@@ -97,12 +112,6 @@ void loop() {
     // Process request
     process(client);
 
-    // Close connection and free resources.
-    client.stop();
-  }
-
-  delay(50); // Poll every 50ms
-
   functionState = digitalRead(FUNCTION);
 
   if(functionState == digitalRead(HIGH)){
@@ -116,6 +125,13 @@ void loop() {
           pos=0;
         }
     functionState = LOW;
+    
+    // Close connection and free resources.
+    client.stop();
+  }
+
+  delay(50); // Poll every 50ms
+
 }
 
 void process(BridgeClient client) {
@@ -241,3 +257,4 @@ void modeCommand(BridgeClient client) {
   client.print(mode);
 }
 */
+
