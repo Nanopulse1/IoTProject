@@ -11,29 +11,34 @@
 	<meta name="author" content="Rónán Cassidy">
 	<title>Tea Time</title>
 </head>
-<body style="background-color:indianred; border: 10px solid darkred;">
+<body onload="myFunction()" style="background-color:indianred; border: 10px solid darkred;">
     <center>
         
     <h1>Project Interface ~ Tea-Inator</h1>
         <img src="cup.png" width="10%" height="10%" alt="Tea">
         <br/>
     <h2>Kettle</h2>
-<a href="http://59ed.local/arduino/digital/D7/1" target="_blank">Hit On</a> <!-- Change address as required. -->
+<a href="http://62f4.local/arduino/digital/D7/1" onclick="sugarTotal();" target="_blank">Hit On</a> <!-- Change address as required. -->
         <br/>
-        
-        <button type="button" href="http://59ed.local/arduino/digital/D7/1" target="_blank">Hit On</button>
-        
-        <form>
-            <input type="button" value="Make A Cuppa!" onclick="window.location.href='http://59ed.local/arduino/digital/D7/1'" target="_blank" />
-        </form>
         
     <h2>Input amount of sugar used per cup</h2>
         <p>Placeholder until code is created.</p>
         
-        <h2>Your RDA of sugar: 0.00/30.0g</h2>
+        <h2>"Your RDA of sugar: " <span id="myText"></span> "/30.0g"</h2>
         <h2>Your RDA of caffiene: 000/400mg</h2>
         <h2>Tea Box: Closed</h2>
         
     </center>
+    
+    <script>
+var sugarMultiplier = 5;
+var caffieneAdd = 80;
+var sugarAdd = function(){
+    clicks++;
+}
+var sugarTotal = sugarMultiplier * sugarAdd;
+document.getElementById("myText").innerHTML = sugarTotal;
+</script>
+    
 </body>
 </html>

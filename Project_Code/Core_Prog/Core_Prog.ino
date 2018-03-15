@@ -1,11 +1,13 @@
-
+/*
 
 #include <Servo.h>
 Servo myservo;
 int pos = 0;
 
-const int buzzerPin = 8;
+const int buzzerPin = 4;
 int buzzerState = 0;
+const int ledPin = 8;
+int ledState = 0;
 const int buttonPin = 6;
 int buttonState = 0;
 
@@ -24,6 +26,7 @@ pinMode(LED, OUTPUT);
 pinMode(FUNCTION, INPUT);
 pinMode(buttonPin, INPUT);
 pinMode(buzzerPin, OUTPUT);
+pinMode(ledPin, OUTPUT);
 functionState = 0;
 
 Serial.begin(9600);
@@ -37,9 +40,11 @@ void loop() {
 
   if(sensorValue <= 50){
     digitalWrite(buzzerPin, HIGH);
+    digitalWrite(ledPin, HIGH);
   }
   else{
     digitalWrite(buzzerPin, LOW);
+    digitalWrite(ledPin, LOW);
   }
   
   
@@ -58,7 +63,7 @@ void loop() {
     
   }
 
-/*
+*/
 #include <Bridge.h>
 #include <BridgeServer.h>
 #include <BridgeClient.h>
@@ -92,7 +97,7 @@ void setup() {
 pinMode(LED, OUTPUT);
 digitalWrite(LED, LOW);
 pinMode(PIR, INPUT);
-pinMode(FUNCTION, INPUT);
+pinMode(FUNCTION, OUTPUT);
 pinMode(buttonPin, INPUT);
 functionState = 0;
 
@@ -256,5 +261,4 @@ void modeCommand(BridgeClient client) {
   client.print(F("error: invalid mode "));
   client.print(mode);
 }
-*/
 
