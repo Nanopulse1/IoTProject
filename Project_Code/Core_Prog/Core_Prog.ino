@@ -1,69 +1,4 @@
-/*
-
-#include <Servo.h>
-Servo myservo;
-int pos = 0;
-
-const int buzzerPin = 4;
-int buzzerState = 0;
-const int ledPin = 8;
-int ledState = 0;
-const int buttonPin = 6;
-int buttonState = 0;
-
-const int FUNCTION = 7;
-int functionState = 0;
-
-int LIGHT_SENSOR = A0;
-
-const int LED = 3;
-
-void setup() {
-  // put your setup code here, to run once:
-myservo.attach(2);
-
-pinMode(LED, OUTPUT);
-pinMode(FUNCTION, INPUT);
-pinMode(buttonPin, INPUT);
-pinMode(buzzerPin, OUTPUT);
-pinMode(ledPin, OUTPUT);
-functionState = 0;
-
-Serial.begin(9600);
-
-}
-
-void loop() {
-  int sensorValue = analogRead(LIGHT_SENSOR);
-  buttonState = digitalRead(buttonPin);
-  Serial.println(sensorValue);
-
-  if(sensorValue <= 50){
-    digitalWrite(buzzerPin, HIGH);
-    digitalWrite(ledPin, HIGH);
-  }
-  else{
-    digitalWrite(buzzerPin, LOW);
-    digitalWrite(ledPin, LOW);
-  }
-  
-  
-  if(buttonState == digitalRead(HIGH)){
-    for (pos = 0; pos <= 180; pos += 1) 
-    {
-    myservo.write(pos);              
-    delay(15);
-    }
-    }
-    else{
-          pos=0;
-        }
-    functionState = LOW;
- 
-    
-  }
-
-*/
+//Libraries
 #include <Bridge.h>
 #include <BridgeServer.h>
 #include <BridgeClient.h>
@@ -74,36 +9,45 @@ void loop() {
 BridgeServer server;
 Servo myservo;
 
-int pos = 0;
-const int buttonPin = 6;
-int buttonState = 0;
+//Buzzer - Box Alarm
+const int buzzerPin = 4;
+int buzzerState = 0;
 
+//LED - Box Alarm for deaf/hard of hearing users 
+const int ledPin = 8;
+int ledState = 0;
+
+//Initalises Servo Position
+int pos = 0;
+
+//Function PIN used to execute servo code from HTTP request
 const int FUNCTION = 7;
 int functionState = 0;
 
-const int LED = 3;
-const int PIR = 6;
-int pirState = 0;
+//Light Dependant Resitor used to detect if teabag/ biscuit box is left open.
+int LIGHT_SENSOR = A0;
 
+//Setup
 void setup() {
   // Bridge startup
-  pinMode(13, OUTPUT);
-  digitalWrite(13, LOW);
   Bridge.begin();
-  digitalWrite(13, HIGH);
 
+  // Servo Initalisation
   myservo.attach(2);
 
-pinMode(LED, OUTPUT);
-digitalWrite(LED, LOW);
-pinMode(PIR, INPUT);
-pinMode(FUNCTION, OUTPUT);
-pinMode(buttonPin, INPUT);
-functionState = 0;
+  //LED Init
+  pinMode(ledPin, OUTPUT);
+  digitalWrite(ledPin, LOW);
+
+  //Function Port Int
+  pinMode(FUNCTION, OUTPUT);
+  functionState = 0;
+
+  //Buzzer Init
+  pinMode(buzzerPin, OUTPUT);
 
   // Listen for incoming connection only from localhost
-  // (no one from the external network could connect)
-  
+  // (no one from the external network could connect)  
   server.listenOnLocalhost();
   server.begin();
 }
@@ -117,25 +61,15 @@ void loop() {
     // Process request
     process(client);
 
-  functionState = digitalRead(FUNCTION);
-
-  if(functionState == digitalRead(HIGH)){
-    for (pos = 0; pos <= 180; pos += 1) 
-    {
-    myservo.write(pos);              
-    delay(15);
-    }
-    }
-    else{
-          pos=0;
-        }
-    functionState = LOW;
-    
+      FunctionServo();
+      
     // Close connection and free resources.
     client.stop();
   }
 
   delay(50); // Poll every 50ms
+
+  LEDSensor();
 
 }
 
@@ -260,5 +194,38 @@ void modeCommand(BridgeClient client) {
 
   client.print(F("error: invalid mode "));
   client.print(mode);
+}
+
+void LEDSensor(){
+   int sensorValue = analogRead(LIGHT_SENSOR);
+      buttonState = digitalRead(buttonPin);
+      Serial.println(sensorValue);
+
+      //LDR Sensor Statement
+      if(sensorValue <= 50){
+        digitalWrite(buzzerPin, HIGH);
+        digitalWrite(ledPin, HIGH);
+                           }
+      else{
+        digitalWrite(buzzerPin, LOW);
+        digitalWrite(ledPin, LOW);
+          } 
+}
+
+void FunctionServo(){
+  functionState = digitalRead(FUNCTION);
+
+      //Servo Statement
+      if(functionState == digitalRead(HIGH)){
+        for (pos = 0; pos <= 180; pos += 1) 
+        {
+        myservo.write(pos);              
+        delay(15);
+        }
+        }
+        else{
+              pos=0;
+            }
+        functionState = LOW;
 }
 
