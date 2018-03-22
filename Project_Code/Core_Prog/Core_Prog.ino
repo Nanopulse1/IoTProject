@@ -198,11 +198,11 @@ void modeCommand(BridgeClient client) {
 
 void LEDSensor(){
    int sensorValue = analogRead(LIGHT_SENSOR);
-      buttonState = digitalRead(buttonPin);
+   
       Serial.println(sensorValue);
 
       //LDR Sensor Statement
-      if(sensorValue <= 50){
+      if(sensorValue >= 50){
         digitalWrite(buzzerPin, HIGH);
         digitalWrite(ledPin, HIGH);
                            }
