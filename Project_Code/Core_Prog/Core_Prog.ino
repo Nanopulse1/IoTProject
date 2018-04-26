@@ -80,6 +80,7 @@ void loop() {
   delay(50); // Poll every 50ms
 
   LEDSensor();
+  DispenseServo();
 
 }
 
@@ -239,31 +240,25 @@ void FunctionServo(){
         functionState = LOW;
 }
 void DispenseServo(){
-DialState = Serial.Read(DialPin);
+        DialState = analogRead(DialPin);
         //Servo Statement
-      if(DialState <= 2400){
-          sta = 90;
+      if(DialState <= 244){
+          sta = 0;
           TeaDisp.write(sta);
-          delay(15);
-      }
-      else if(DialState > 2400 && DialState < 4800)
-      {
-        sta = 180;
-          TeaDisp.write(sta);
-          delay(15);
           
       }
-      else if(DialState >= 4800 && DialState < 7200)
+      else if(DialState > 244 && DialState < 488)
       {
-        sta = 270;
+        sta = 65;
           TeaDisp.write(sta);
-          delay(15);
+          
+          
       }
       else
       {
-        sta = 0;
-        TeaDisp.write(sta);
-        delay(15);
+        sta = 130;
+          TeaDisp.write(sta);
+       
       }
 }
 
