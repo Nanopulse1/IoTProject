@@ -8,10 +8,15 @@
 // will forward there all the HTTP requests you send
 BridgeServer server;
 Servo myservo;
+Servo TeaDisp;
 
 //Buzzer - Box Alarm
 const int buzzerPin = 4;
 int buzzerState = 0;
+
+//tea dispenser
+const int DialPin = A3;
+int DialState = 0;
 
 //LED - Box Alarm for deaf/hard of hearing users 
 const int ledPin = 8;
@@ -19,6 +24,7 @@ int ledState = 0;
 
 //Initalises Servo Position
 int pos = 0;
+int sta = 0;
 
 //Function PIN used to execute servo code from HTTP request
 const int FUNCTION = 7;
@@ -34,6 +40,7 @@ void setup() {
 
   // Servo Initalisation
   myservo.attach(2);
+  TeaDisp.attach(3);
 
   //LED Init
   pinMode(ledPin, OUTPUT);
@@ -42,6 +49,9 @@ void setup() {
   //Function Port Int
   pinMode(FUNCTION, OUTPUT);
   functionState = 0;
+
+  pinMode(DialPin, INPUT);
+  DialState = 0;
 
   //Buzzer Init
   pinMode(buzzerPin, OUTPUT);
@@ -227,5 +237,33 @@ void FunctionServo(){
               pos=0;
             }
         functionState = LOW;
+}
+void DispenseServo(){
+DialState = Serial.Read(DialPin);
+        //Servo Statement
+      if(DialState <= 2400){
+          sta = 90;
+          TeaDisp.write(sta);
+          delay(15);
+      }
+      else if(DialState > 2400 && DialState < 4800)
+      {
+        sta = 180;
+          TeaDisp.write(sta);
+          delay(15);
+          
+      }
+      else if(DialState >= 4800 && DialState < 7200)
+      {
+        sta = 270;
+          TeaDisp.write(sta);
+          delay(15);
+      }
+      else
+      {
+        sta = 0;
+        TeaDisp.write(sta);
+        delay(15);
+      }
 }
 
