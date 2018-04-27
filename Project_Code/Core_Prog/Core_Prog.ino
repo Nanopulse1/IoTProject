@@ -11,7 +11,7 @@ Servo myservo;
 Servo TeaDisp;
 
 //Buzzer - Box Alarm
-const int buzzerPin = 4;
+const int buzzerPin = A0;
 int buzzerState = 0;
 
 //tea dispenser
@@ -19,7 +19,7 @@ const int DialPin = A3;
 int DialState = 0;
 
 //LED - Box Alarm for deaf/hard of hearing users 
-const int ledPin = 8;
+const int ledPin = A2;
 int ledState = 0;
 
 //Initalises Servo Position
@@ -31,7 +31,7 @@ const int FUNCTION = 7;
 int functionState = 0;
 
 //Light Dependant Resitor used to detect if teabag/ biscuit box is left open.
-int LIGHT_SENSOR = A0;
+int LIGHT_SENSOR = A1;
 
 //Setup
 void setup() {
