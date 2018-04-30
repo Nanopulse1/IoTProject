@@ -11,7 +11,7 @@ Servo myservo;
 Servo TeaDisp;
 
 //Buzzer - Box Alarm
-const int buzzerPin = A0;
+const int buzzerPin = 6;
 int buzzerState = 0;
 
 //tea dispenser
@@ -19,7 +19,7 @@ const int DialPin = A3;
 int DialState = 0;
 
 //LED - Box Alarm for deaf/hard of hearing users 
-const int ledPin = A2;
+const int ledPin = 3;
 int ledState = 0;
 
 //Initalises Servo Position
@@ -40,7 +40,7 @@ void setup() {
 
   // Servo Initalisation
   myservo.attach(2);
-  TeaDisp.attach(3);
+  TeaDisp.attach(8);
 
   //LED Init
   pinMode(ledPin, OUTPUT);
@@ -239,6 +239,7 @@ void FunctionServo(){
             }
         functionState = LOW;
 }
+
 void DispenseServo(){
         DialState = analogRead(DialPin);
         //Servo Statement
